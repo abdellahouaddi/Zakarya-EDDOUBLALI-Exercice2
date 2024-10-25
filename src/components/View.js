@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 const View = () => {
   const { id } = useParams();
   const { state } = useUserContext();
-  const user = state.users.find(user => user.id === parseInt(id));
+  const user = state.users.find(user => user.id == (id));
 
   if (!user) return <div>User not found</div>;
 

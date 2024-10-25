@@ -5,7 +5,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 const Edit = () => {
   const { id } = useParams();
   const { state, dispatch } = useUserContext();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   const user = state.users.find(user => user.id === parseInt(id));
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -21,29 +21,59 @@ const Edit = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const updatedUser = { id: parseInt(id), name, email, username };
-    dispatch({ type: 'UPDATE_USER', payload: updatedUser });
-    Navigate('/');
+    const newUser = { id: Date.now(), name, email, username };
+
+    if (user) {
+ 
+      const updatedUser = { id: parseInt(id), name, email, username };
+      dispatch({ type: 'UPDATE_USER', payload: updatedUser });
+    } else {
+
+      dispatch({ type: 'ADD_USER', payload: newUser });
+    }
+
+    navigate('/'); 
   };
 
-  if (!user) return <div>User not found</div>;
-
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="mb-3">
-        <label>Name</label>
-        <input type="text" className="form-control" value={name} onChange={(e) => setName(e.target.value)} required />
-      </div>
-      <div className="mb-3">
-        <label>Email</label>
-        <input type="email" className="form-control" value={email} onChange={(e) => setEmail(e.target.value)} required />
-      </div>
-      <div className="mb-3">
-        <label>Username</label>
-        <input type="text" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)} required />
-      </div>
-      <button type="submit" className="btn btn-success">Update User</button>
-    </form>
+    <div className='container p-3'>
+      <h2>{user ? 'Edit User' : 'Add User'}</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label>Name</label>
+          <input
+            type="text"
+            className="form-control"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label>Email</label>
+          <input
+            type="email"
+            className="form-control"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <label>Username</label>
+          <input
+            type="text"
+            className="form-control"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit" className="btn btn-success">
+          {user ? 'Update User' : 'Add User'}
+        </button>
+      </form>
+    </div>
   );
 };
 

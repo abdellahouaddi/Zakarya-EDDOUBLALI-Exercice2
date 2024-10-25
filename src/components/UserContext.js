@@ -1,5 +1,4 @@
 import React, { createContext, useReducer, useEffect } from 'react';
-import axios from 'axios';
 
 const UserContext = createContext();
 
@@ -32,8 +31,16 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchUsers = async () => {
-      const response = await axios.get('https://jsonplaceholder.typicode.com/users');
-      dispatch({ type: 'SET_USERS', payload: response.data });
+      try {
+        const response = await fetch('https://jsonplaceholder.typicode.com/users');
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        dispatch({ type: 'SET_USERS', payload: data });
+      } catch (error) {
+        console.error('There was a problem with the fetch operation:', error);
+      }
     };
 
     fetchUsers();

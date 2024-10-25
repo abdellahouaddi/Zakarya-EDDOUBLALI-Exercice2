@@ -10,9 +10,9 @@ const Home = () => {
   };
 
   return (
-    <div>
+    <div className="container mt-5">
       <h2>User List</h2>
-      <table className="table">
+      <table className="table table-bordered">
         <thead>
           <tr>
             <th>Name</th>
@@ -22,18 +22,24 @@ const Home = () => {
           </tr>
         </thead>
         <tbody>
-          {state.users.map(user => (
-            <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.username}</td>
-              <td>
-                <Link to={`/view/${user.id}`} className="btn btn-info btn-sm">View</Link>
-                <Link to={`/edit/${user.id}`} className="btn btn-warning btn-sm">Edit</Link>
-                <button onClick={() => handleDelete(user.id)} className="btn btn-danger btn-sm">Delete</button>
-              </td>
+          {state.users.length > 0 ? (
+            state.users.map(user => (
+              <tr key={user.id}>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.username}</td>
+                <td>
+                  <Link to={`/view/${user.id}`} className="btn btn-info btn-sm me-2">View</Link>
+                  <Link to={`/edit/${user.id}`} className="btn btn-warning btn-sm me-2">Edit</Link>
+                  <button onClick={() => handleDelete(user.id)} className="btn btn-danger btn-sm">Delete</button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="4" className="text-center">No users found.</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
       <Link to="/edit/new" className="btn btn-primary">Add User</Link>
