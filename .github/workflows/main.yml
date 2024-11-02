@@ -20,12 +20,13 @@ jobs:
           fetch-depth: 0  # Disabling shallow clones for better analysis
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v2
         with:
-          java-version: '17'  # Specify your Java version if applicable
+          java-version: '17'  # Specify your Java version
+          distribution: 'temurin'  # Specify the Java distribution
 
       - name: Cache SonarQube packages
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
@@ -36,7 +37,6 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Your SonarQube token
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}  # Your SonarQube server URL
-          # Ensure SONAR_HOST_URL points to the correct Docker host (e.g., http://localhost:9000 or http://<docker_host_ip>:9000)
         with:
           projectBaseDir: .  # Adjust this to your project base directory if needed
 
