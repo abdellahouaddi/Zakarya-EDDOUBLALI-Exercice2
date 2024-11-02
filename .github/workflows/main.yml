@@ -31,7 +31,7 @@ jobs:
         unzip sonar-scanner.zip
         cd sonar-scanner-4.6.2.2472-linux/bin
         chmod +x sonar-scanner
-        ./sonar-scanner -Dsonar.projectKey=your_project_key \  # Replace with your actual project key
+        ./sonar-scanner -Dsonar.projectKey=crud1\  # Replace with your actual project key
                         -Dsonar.sources=./src \  # Adjust to your source directory
                         -Dsonar.host.url=$SONAR_HOST_URL \
                         -Dsonar.login=$SONAR_TOKEN
